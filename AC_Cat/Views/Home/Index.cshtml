@@ -1,0 +1,85 @@
+﻿@model AC_Cat.ViewModels.QuoteScheduleViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+<h1>Quote Page</h1>
+
+@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+{
+    <form>
+        <div class="row">
+            <div class="col-md-3">
+                Select Loan Term (Years):
+            </div>
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.SelectedLoanTerm, new SelectList(AC_Cat.ViewModels.QuoteScheduleViewModel.AvailableLoanTerms, "Text", "Value"), new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                Input Car Value:
+            </div>
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.TotalPrice, new { @class = "form-control", type = "number" })
+            </div>
+            <div class="col-md-3">
+                @Html.ValidationMessageFor(m => m.TotalPrice, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                Input Deposit Amount:
+            </div>
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.DepositAmount, new { @class = "form-control", type = "number" })
+            </div>
+            <div class="col-md-3">
+                @Html.ValidationMessageFor(m => m.DepositAmount, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">
+                Select delivery date:
+            </div>
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.DeliveryDate, new { @class = "form-control datepicker", type = "date" })
+            </div>
+            <div class="col-md-3">
+                @Html.ValidationMessageFor(m => m.DeliveryDate, null, new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <input type="submit" class="btn btn-primary btn-lg" />
+        </div>
+    </form>
+}
+
+<hr />
+<br />
+
+@if (Model == null || Model.Schedule.QuoteItems.Count() < 1)
+{
+    <p>Generate a quote to see results.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Amount Due</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var payment in Model.Schedule.QuoteItems)
+            {
+                <tr>
+                    <td>@payment.DateTime.DateTime.ToShortDateString()</td>
+                    <!-- Again - display of the currency amount misses fractional pennies
+                        solution to this is deemed to be beyond scope for an interview app-->
+                    <td>@payment.AmountDue.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
