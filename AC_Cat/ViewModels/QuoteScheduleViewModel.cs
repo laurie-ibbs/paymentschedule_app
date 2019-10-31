@@ -19,7 +19,6 @@ namespace AC_Cat.ViewModels
         public decimal DepositAmount { get; set; }
         public int SelectedLoanTerm { get; set; }
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTimeOffset DeliveryDate { get; set; }
 
         public QuoteSchedule Schedule { get; set; } = QuoteSchedule.Default;
